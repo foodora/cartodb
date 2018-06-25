@@ -81,6 +81,6 @@ CartoDB::Application.configure do
     Cartodb.asset_path
   end
 
-  SslRequirement.disable_ssl_check = false
-  config.force_ssl = true
+  #SslRequirement.disable_ssl_check = false
+  #config.force_ssl = true
 end
