@@ -48,6 +48,8 @@ module Carto
 
       def create
         group = @organization.create_group(params['display_name'])
+        CartoDB::Logger.error(message: "GROUP: #{group.inspect}")
+        CartoDB::Logger.error(message: "GROUP OBJECT: #{Carto::Api::GroupPresenter.full(group).to_poro}")
         render_jsonp(Carto::Api::GroupPresenter.full(group).to_poro, 200)
       rescue CartoDB::ModelAlreadyExistsError => e
         CartoDB::Logger.debug(message: 'Group already exists', exception: e, params: params)
