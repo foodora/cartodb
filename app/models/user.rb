@@ -710,6 +710,9 @@ class User < Sequel::Model
 
     configuration = db_service.db_configuration_for(options[:as])
     configuration['database'] = options['database'] unless options['database'].nil?
+    CartoDB::Logger.error(exception: nil, message: "CONNECTION IN DATABASE")
+    CartoDB::Logger.error(exception: nil, message: configuration.inspect)
+    CartoDB::Logger.error(exception: nil, message: configuration['database'])
 
     connection = get_connection(options, configuration)
 
