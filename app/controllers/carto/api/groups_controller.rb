@@ -163,8 +163,6 @@ module Carto
       end
 
       def handle_statement_invalid_error(e, group)
-        CartoDB::Logger.error(exception: e, message: "DEBUG IN handle_statement_invalid_error")
-        CartoDB::Logger.error(exception: e, params: params, group: group || 'no group', organization: @organization)
         err_regexp = /ERROR:  (.*)\n/
         if e.message =~ err_regexp
           render json: { errors: [err_regexp.match(e.message)[1]] }, status: 422
