@@ -1,13 +1,94 @@
 Development
 -----------
 
+### NOTICE
+This release upgrades the CartoDB PostgreSQL extension to `0.23.0`. Run the following to have it available:
+```shell
+cd $(git rev-parse --show-toplevel)/lib/sql
+sudo make install
+```
+
+This release introduces a new API Key system. In order to migrate existing users, run the following command:
+`bundle exec rake carto:api_key:create_default`
+
 ### Features
+* Update CARTO logo in maps (https://github.com/CartoDB/design/issues/1324)
 * Password expiration ([Central#2226](https://github.com/CartoDB/cartodb-central#2226))
+* New rake to fix inconsistent permissions (`bundle exec rake cartodb:permissions:fix_permission_acl`)
 
 ### Bug fixes / enhancements
+* Use setView instead of flyTo to improve zoom transitions (https://github.com/CartoDB/carto.js/pull/2178)
+* Fix torque layers when filter analysis is added (https://github.com/CartoDB/support/issues/1038)
+* Copyright symbol not appearing on exported image (https://github.com/CartoDB/cartodb/issues/13411)
+* Keep selected popup tab after fetch (https://github.com/CartoDB/support/issues/1396)
+* Fix HTML templates for Hover popups (https://github.com/CartoDB/cartodb/issues/11284)
+* Fix category name overflow when styling by value (https://github.com/CartoDB/support/issues/1644)
+* Improve input image when color changes (https://github.com/CartoDB/cartodb/issues/11326)
+* Fix pagination buttons style (https://github.com/CartoDB/cartodb/issues/13456)
+* Fix edit month in table cell (https://github.com/CartoDB/support/issues/1352)
+* Fix wrong style after creating a feature (https://github.com/CartoDB/cartodb/issues/13680)
+* Map instantiation is now debounced thanks to Carto.js 4.0.12 (https://github.com/CartoDB/cartodb/pull/14142)
+* Fix bug computing next page in datasets (https://github.com/CartoDB/cartodb/issues/14138)
+* Move to the last page after adding a row (https://github.com/CartoDB/cartodb/issues/10720)
+* Fix pagination after deleting a row (https://github.com/CartoDB/cartodb/issues/9868)
+* Fix Widget view click (https://github.com/CartoDB/cartodb/issues/13409)
+* Improve style for Analysis modal blocks (https://github.com/CartoDB/cartodb/issues/13361)
+* Use ellipsis for widgets title (https://github.com/CartoDB/cartodb/issues/13332)
+* Fix dark menu links (https://github.com/CartoDB/cartodb/issues/11257)
+* Fix legend editor margin (https://github.com/CartoDB/cartodb/issues/13338)
+* Fix slider width for point/stroke size (https://github.com/CartoDB/support/issues/1641)
+* Fix gradient legends margin (https://github.com/CartoDB/support/issues/1640)
+* Fix drag new layer from Torque source (https://github.com/CartoDB/support/issues/1625)
+* Fix custom carousel item select event (https://github.com/CartoDB/cartodb/issues/14070)
+* Fix gaps in tiles (https://github.com/CartoDB/support/issues/1362)
+* Fix style issues (https://github.com/CartoDB/cartodb/pull/14123)
+* Fix SVG spinner animations (https://github.com/CartoDB/cartodb/issues/14105)
+* Fix Dataset header dropdown (https://github.com/CartoDB/support/issues/1614)
+* Remove unneeded space in collapsed legends view (https://github.com/CartoDB/cartodb/issues/14091)
+* Validate Visualization type (#13841)
+* Do not assume that if min and max are equal we come from a fixed value (https://github.com/CartoDB/carto.js/issues/2146)
+* Add mode to raise max-height when widgets are not present (https://github.com/CartoDB/carto.js/issues/2146)
+* Add schema to column_names (#14121)
+* Deprecate Twitter connector in `add dataset` modal (https://github.com/CartoDB/cartodb/issues/14081)
+* Set new message on privacy warning modal when new privacy is LINK (https://github.com/CartoDB/cartodb/issues/14030)
+* Improve size & color UI when styling layers (https://github.com/CartoDB/product/issues/54)
+* Show Organization notifications in static pages (https://github.com/CartoDB/cartodb/issues/14089)
+* Log user destruction errors to Rollbar (#13745)
+* Fix wrong margins in the layer selector when the top layer has a bubble legend (https://github.com/CartoDB/support/issues/1566)
+* Fix error when styling points by value in animated aggregation style (https://github.com/CartoDB/cartodb/issues/14085)
+* Show errors coming from QueryRowsCollection in Dataset/Builder (https://github.com/CartoDB/cartodb/issues/14066)
+* Export JPG image as JPEG format instead of PNG (https://github.com/CartoDB/cartodb/issues/14042)
+* Redirect to login or fix URL if trying to access another user private pages (https://github.com/CartoDB/cartodb/pull/14013)
+* Add Google Tag Manager to Static Pages (https://github.com/CartoDB/cartodb/issues/14029)
+* Sync ArcGIS datasets with null values in ogc_fid or gid (CartoDB/support/issues/1460)
+* List organization admin users in your Organisation settings (https://github.com/CartoDB/support/issues/1583)
+* Send `Visited Private Page` event from Dashboard (#14041), update user model (#14084) and db size cache (#14102)
+* Fix Mapviews don't appear on bar chart rollover (https://github.com/CartoDB/support/issues/1573)
+* Fix Broken CTA in the 'Connect Dataset' modal (https://github.com/CartoDB/cartodb/issues/14036)
+* Fix `Create map` from data library https://github.com/CartoDB/cartodb/issues/14020#event-1655755501
 * Fix wrong requests because of bad png tile urls generation (https://github.com/CartoDB/cartodb/pull/14000)
+* Fix migration of users with invalid search_tweets.data_import_id (#13904)
+* Import / export synchronization oauths and connector configurations (#14003)
+* Retain backwards compatibility with exports without client applications(#14083)
 * Redirect organization users in static pages (https://github.com/CartoDB/cartodb/pull/14009)
+* Update extension to 0.22.1 to fix problems granting permissions to tables with sequences (cartodb-postgresql#330)
+* Update extension to 0.22.2 to fix hyphenates usernames (cartodb-postgresql#331)
+* Update extension to 0.23.0 to add a new helper function `_CDB_Table_Exists(table_name_with_optional_schema TEXT)` (cartodb-postgresql#332)
+* Log Resque errors (#14116)
+* Avoid creating double indices on sync (#14157)
+* Do not crash when checking nil password (#14099)
+* Do not crash when saving WMS layers with long metadata (Suppoer#1643)
+* Remove Auth API FF, enable it by default (#13857)
+* Fix table sharing from users with hyphens in their name (quoting) (support#1635)
+* User mover does not export user metadata if org metadata is not exported
+* Fail fast instead of locking dashboard / user data size calculation on table deletion (#12829)
+* Triggering ghost tables and common data when visiting the dashboard (#14010)
 
+### Internals
+* Re-enable sourcemaps in production, they were broken since the move to webpack v4 (https://github.com/CartoDB/cartodb/pull/14150)
+* Add `internal-carto.js` to transpilation process in Webpack (https://github.com/CartoDB/cartodb/pull/14117)
+* Create a new JS bundle for Lockout page (https://github.com/CartoDB/cartodb/issues/14019)
+* Update to Webpack 4, move CSS processing from Grunt to Webpack (https://github.com/CartoDB/cartodb/pull/14033)
 
 
 4.12.x (2018-05-24)
@@ -38,6 +119,8 @@ You can then run `bundle exec rake carto:db:sync_basemaps_from_app_config` to sy
 This upgrade changes AWS gem version. Now you must specify `region` within your AWS configurations. Check `app_config.yml.sample`.
 
 ### Features
+* Export GPKG files (CartoDB/support#1220)
+* Show migrated public pages (/me, /maps, /datasets) for all builder users (#14039)
 * Allow users to edit all their information in Profile (#13793)
 * Ask for password confirmation when updating organization or user settings (#13795)
 * Public dataset migration (#13803)
@@ -167,6 +250,7 @@ ion for time-series (#12670)
 * User accounts in locked state returns 404 for resources like maps or visualizations and redirection for private endpoints (#13030)
 * Force use a different password when password change ([Central#2223](https://github.com/CartoDB/cartodb-central#2223))
 * Limits V2
+  * Add rate limits for sql_copy ([CartoDB-platform#4394](https://github.com/CartoDB/cartodb-platform/issues/4394))
   * Add rate limits persistence (#13626)
   * Include rate limits in user migration (#13712)
   * Remove rate limits on user deletion (#13657)
@@ -205,11 +289,14 @@ ion for time-series (#12670)
 * Hide legend title and header if not enabled (https://github.com/CartoDB/support/issues/1349)
 
 ### Bug fixes / enhancements
+* Fix create map / add layer button being disabled (#14061)
 * Fix layers list item border color (https://github.com/CartoDB/cartodb/pull/14002)
 * Remove padding to delete button in analyses (https://github.com/CartoDB/cartodb/pull/14001)
 * Fix wrong requests because of bad png tile urls generation (https://github.com/CartoDB/cartodb/pull/14000)
 * Fix copy on Twitter connector deprecation
+* Properly destroys and sets cartodb_base_url cookie (https://github.com/CartoDB/cartodb/pull/14064)
 * Fix apply button loading state for queries that alter the data (https://github.com/CartoDB/cartodb/pull/13979)
+* Fix synchronization IDs in migrations (CartoDB/support/issues/1603)
 * Avoid parsing errors twice when saving CartoCSS (https://github.com/CartoDB/cartodb/pull/13986)
 * Show "Select points in polygons" analysis only for polygons (https://github.com/CartoDB/cartodb/pull/13982)
 * Allow only numeric values in latitude/longitude select in georeference analysis (https://github.com/CartoDB/cartodb/pull/13974)
@@ -327,6 +414,7 @@ ion for time-series (#12670)
 * Submit form with Enter key in the Add layer modal > Connect dataset tab (#13441)
 * Add routing to analyses nodes (#13364)
 * Fix organization signup page not working on subdomainless #13012
+* Deletes redis metadata after org destruction (#13687)
 * Fix publish modal in settings view (#13418)
 * Improve onboarding for when user adds an empty layer (#11876)
 * Don't show the publish modal when the user clicks on the privacy button (#13366)
@@ -638,9 +726,16 @@ ion for time-series (#12670)
 * Fix broken import when `ogc_fid` or `gid` have nulls (https://github.com/CartoDB/support/issues/1338)
 * Allow inviting viewers for org even if regular seats are full (https://github.com/CartoDB/support/issues/1373)
 * Add rake to remove duplicate legends in layer
+* Fix private visualization imports when user has no private tables permission (https://github.com/CartoDB/cartodb/issues/14052)
+* Export and import `user`'s `client_application` and `oauth_tokens` (https://github.com/CartoDB/cartodb/pull/14060)
+* Do not allow empty password in LDAP logins
+* Disable syncs for locked users (https://github.com/CartoDB/cartodb/issues/13832)
 * Fix bugs in legends (https://github.com/CartoDB/support/issues/1339, )
 
 ### Internals
+* Fix test error output for builder (#14158)
+* Editor assets are frozen now (#14090)
+* Added specs for the migrated dashboard (#14037)
 * Profile and Account pages are now static and served via NGINX in production/staging enviroment (#13958)
 * CARTO.js internal version is now called internal-carto.js (#13960)
 * Compress and pack static pages assets for production release (#13940)
@@ -839,6 +934,7 @@ More information at [Dropbox migration guide](https://www.dropbox.com/developers
 * Fixed UI when editing merge analysis (#10850)
 * Fixed uninitialized constant in Carto::Visualization when a viewer shares a visualization (#12129).
 * Revamp grunt default task to compile assets (#12325)
+* Remove dashboard_migration ff from backend (#14103)
 * Made checkboxes actionable clicking on its label (#11535)
 * Google customers don't need quota checks for hires geocoding (support/#674)
 * Fixed a problem with autostyle when styles has aggregation (#8648)
@@ -993,9 +1089,11 @@ More information at [Dropbox migration guide](https://www.dropbox.com/developers
 * Do not export local visualizations lacking a map
 * Do not export duplicated canonical visualizations
 * Add notifications to user migrator (#13844)
+* Better postgres functions deprecation matching
 * Export and import non-cartodb-managed named maps.
 * Keep import even if it fails importing visualizations (#13903)
 * Save Import when visualization import fails (#13984)
+* Add rake to remove org metadata .
 * Docs, fixed incorrect grammar in en.json file (customer reported).
 
 ### NOTICE

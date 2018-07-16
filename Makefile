@@ -7,10 +7,6 @@ all:
 	cat python_requirements.txt | grep -v gdal | sudo pip install -r /dev/stdin
 	npm install
 
-PENDING_SPECS = \
-	spec/lib/varnish_spec.rb (#321) \
-	$(NULL)
-
 WORKING_SPECS_INTEGRATIONS = \
 	$(NULL)
 
@@ -280,7 +276,6 @@ SPEC_HELPER_MIN_SPECS = \
 	spec/requests/carto/superadmin/user_migration_imports_spec.rb \
 	spec/requests/carto/superadmin/user_migration_exports_spec.rb \
 	spec/requests/carto/saml_controller_spec.rb \
-	spec/requests/admin/users_controller_spec.rb \
 	spec/services/carto/user_table_index_service_spec.rb \
 	spec/services/carto/user_metadata_export_service_spec.rb \
 	spec/services/carto/organization_metadata_export_service_spec.rb \
