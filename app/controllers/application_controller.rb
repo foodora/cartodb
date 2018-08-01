@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   ME_ENDPOINT_COOKIE = :_cartodb_base_url
 
   # this disables SSL requirement in non-production environments (add "|| Rails.env.development?" for local https)
-  unless Rails.env.production? || Rails.env.staging?# || Rails.env.development?
+  unless Rails.env.production? || Rails.env.staging?
     def self.ssl_required(*splat)
       false
     end
